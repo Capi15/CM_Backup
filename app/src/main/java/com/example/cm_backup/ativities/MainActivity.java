@@ -1,10 +1,14 @@
-package com.example.cm_backup;
+package com.example.cm_backup.ativities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.cm_backup.R;
+import com.example.cm_backup.adapters.CustomArrayAdapter;
+import com.example.cm_backup.entities.Nota;
 
 import java.util.ArrayList;
 
@@ -19,12 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fillLista(){
-        ArrayList<String> arrayItems = new ArrayList<>();
-        arrayItems.add("Nota1");
-        arrayItems.add("Nota2");
-        arrayItems.add("Nota3");
+        ArrayList<Nota> arrayItems = new ArrayList<>();
+        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
+        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
+        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
 
-        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayItems);
+        CustomArrayAdapter itemsAdapter = new CustomArrayAdapter(this, arrayItems);
         ((ListView) findViewById(R.id.id_lista)).setAdapter(itemsAdapter);
     }
 }

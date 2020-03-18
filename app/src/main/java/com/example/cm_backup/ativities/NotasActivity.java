@@ -1,11 +1,10 @@
-package com.example.cm_backup;
+package com.example.cm_backup.ativities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
-import java.util.ArrayList;
+import com.example.cm_backup.R;
 
 public class NotasActivity extends AppCompatActivity {
 

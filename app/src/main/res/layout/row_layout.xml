@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_resouce">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/padding_resouce"
+    tools:context="com.example.cm_backup.ativities.MainActivity">
 
     <TextView
         android:id="@+id/titulo_id"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="aaaaaaaaaaaaaaaa"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
@@ -16,8 +22,10 @@
         android:id="@+id/descricao_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/titulo_id"
-        android:text="oi">
+        android:text="eeeeeeeeeeeeeeeeeeeeee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_id"
+        android:layout_marginTop="20dp">
 
     </TextView>
 
@@ -26,7 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/descricao_id"
-        android:gravity="right">
+        android:gravity="right"
+        android:text="iiiiiiiiiiiiiii"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/descricao_id">
 
     </TextView>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
