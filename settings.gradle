@@ -1,0 +1,2 @@
+rootProject.name='CM_Backup'
+include ':app'
