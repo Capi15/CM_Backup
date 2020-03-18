@@ -4,14 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-<ListView
-    android:id="@+id/id_lista"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FF0">
-
-</ListView>
+    tools:context=".NotasActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
