@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     DB mDbHelper;
     SQLiteDatabase db;
-    Cursor c, c_pessoas;
+    Cursor c, c_notas;
     ListView lista;
     CustomCursorAdapter cca;
 
@@ -49,22 +49,7 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(lista);
         preencheLista();
         //preencheSpinner();
-        //registerForContextMenu((ListView) findViewById(R.id.id_lista));
-        //arrayNota = new ArrayList<>();
-        //fillLista();
-        //
     }
-
-
-    /*private void fillLista(){
-        ArrayList<Nota> arrayItems = new ArrayList<>();
-        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
-        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
-        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
-
-        CustomArrayAdapter itemsAdapter = new CustomArrayAdapter(this, arrayItems);
-        ((ListView) findViewById(R.id.id_lista)).setAdapter(itemsAdapter);
-    }*/
 
     public void goToNotes (View view){
         Intent intent = new Intent (this, NotasActivity.class);
