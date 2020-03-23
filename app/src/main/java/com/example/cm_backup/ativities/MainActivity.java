@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        registerForContextMenu((ListView) findViewById(R.id.id_lista));
+        arrayNota = new ArrayList<>();
         fillLista();
     }
 
@@ -40,23 +44,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.context_menu, menu);
-        return true;
+
     }
 
     @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
         Nota nota = arrayNota.get(index);
 
         switch (item.getItemId()){
-            case R.id.adicionar:
-                Toast.makeText(this, "adicionado", Toast.LENGTH_SHORT).show();
+            case R.id.editar:
+                Toast.makeText(this, "editado", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.remover:
+                Toast.makeText(this, "removido", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+            return super.onContextItemSelected(item);
         }
-        return super.onContextItemSelected(item);
+
+
     }
+
+
 }

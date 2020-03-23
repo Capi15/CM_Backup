@@ -4,7 +4,7 @@
 
     <item android:id="@+id/editar"
         android:title="@string/editar"
-        app:showAsAction="always"></item>
+       ></item>
 
     <item android:id="@+id/remover"
         android:title="@string/remover"></item>
