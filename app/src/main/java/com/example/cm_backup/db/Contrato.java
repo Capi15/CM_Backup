@@ -6,7 +6,7 @@ import android.telecom.Call;
 public class Contrato {
     public static final String TEXT_TYPE = " TEXT ";
     public static final String INT_TYPE = " INT ";
-    public static final String BOOLEAN_TYPE = " BOOLEAN ";
+    public static final String BOOLEAN_TYPE = " TINYINT(1) ";
     public static final String DATE_TYPE = " DATE ";
 
     public Contrato(){

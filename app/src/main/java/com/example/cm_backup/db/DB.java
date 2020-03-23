@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DB extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "notas.db";
 
     public DB(Context context){
@@ -17,13 +17,13 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(Contrato.Details.SQL_CREATE_ENTRIES);
         db.execSQL(Contrato.Nota.SQL_CREATE_ENTRIES);
 
-        db.execSQL("insert into " + Contrato.Details.TABLE_NAME + " values ('Baixa', false)");
-        db.execSQL("insert into " + Contrato.Details.TABLE_NAME + " values ('Baixa', false)");
-        db.execSQL("insert into " + Contrato.Details.TABLE_NAME + " values ('Baixa', false)");
+        db.execSQL("insert into " + Contrato.Details.TABLE_NAME + " values (1, 'Baixa', 0);");
+        db.execSQL("insert into " + Contrato.Details.TABLE_NAME + " values (2, 'Baixa', 0);");
+        db.execSQL("insert into " + Contrato.Details.TABLE_NAME + " values (3, 'Baixa', 0)");
 
-        db.execSQL("insert into " + Contrato.Nota.TABLE_NAME + " values ('Titulo1', 'Descrição1', 'Data1')");
-        db.execSQL("insert into " + Contrato.Nota.TABLE_NAME + " values ('Titulo2', 'Descrição2', 'Data2')");
-        db.execSQL("insert into " + Contrato.Nota.TABLE_NAME + " values ('Titulo3', 'Descrição3', 'Data3')");
+        db.execSQL("insert into " + Contrato.Nota.TABLE_NAME + " values (1, 'Titulo1', 'Descrição1', 'Data1', 1);");
+        db.execSQL("insert into " + Contrato.Nota.TABLE_NAME + " values (2, 'Titulo2', 'Descrição2', 'Data2', 2);");
+        db.execSQL("insert into " + Contrato.Nota.TABLE_NAME + " values (3, 'Titulo3', 'Descrição3', 'Data3', 3);");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
