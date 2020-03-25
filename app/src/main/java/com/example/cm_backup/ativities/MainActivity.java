@@ -1,26 +1,23 @@
 package com.example.cm_backup.ativities;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cm_backup.R;
-import com.example.cm_backup.adapters.CustomArrayAdapter;
 import com.example.cm_backup.adapters.CustomCursorAdapter;
 import com.example.cm_backup.db.Contrato;
 import com.example.cm_backup.db.DB;
@@ -33,8 +30,11 @@ public class MainActivity extends AppCompatActivity {
     DB mDbHelper;
     SQLiteDatabase db;
     Cursor c, c_notas;
+    Spinner spin;
     ListView lista;
     CustomCursorAdapter cca;
+    private int REQUEST_CODE_OP_1 = 1;
+
 
     ArrayList<Nota> arrayNota;
     @Override
@@ -47,13 +47,56 @@ public class MainActivity extends AppCompatActivity {
 
         lista = (ListView) findViewById(R.id.id_lista);
         registerForContextMenu(lista);
+        spin = ((Spinner) findViewById(R.id.id_spinner));
         preencheLista();
+
         //preencheSpinner();
     }
 
-    public void goToNotes (View view){
+    public void refresh(){
+        getCursor();
+        cca.swapCursor(c);
+    }
+
+    /*private void getCursor() {
+        String sql = "select "
+                + Contrato.Nota.COLUMN_TITULO + ", " + Contrato.Nota.COLUMN_DESCRICAO
+                + ", " + Contrato.Nota.COLUMN_DATA + ", " + Contrato.Details.COLUMN_PRIORIDADE
+                + ", " + Contrato.Details.COLUMN_COMPLETO + " FROM "
+                + Contrato.Nota.TABLE_NAME + ", " + Contrato.Details.TABLE_NAME
+                + " WHERE " + Contrato.Nota.COLUMN_ID_DETAILS
+                + "=" + Contrato.Details.TABLE_NAME + "." + Contrato.Details._ID;
+
+        c = db.rawQuery(sql, null);
+    }*/
+
+
+    private void getCursor() {
+        String sql = "select " + Contrato.Nota.TABLE_NAME + "."
+                + Contrato.Nota._ID + "," + Contrato.Details.TABLE_NAME
+                + " FROM " + Contrato.Nota.COLUMN_TITULO + ", " + Contrato.Nota.COLUMN_DESCRICAO
+                + ", " + Contrato.Nota.COLUMN_DATA + ", " + Contrato.Details.COLUMN_PRIORIDADE
+                + ", " + Contrato.Details.COLUMN_COMPLETO + " WHERE " + Contrato.Nota.COLUMN_ID_DETAILS
+                + "=" + Contrato.Details.TABLE_NAME + "." + Contrato.Details._ID;
+
+        c = db.rawQuery(sql, null);
+    }
+
+    public void goToNotes (View view, int re){
         Intent intent = new Intent (this, NotasActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_OP_1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if (requestCode == REQUEST_CODE_OP_1) {
+
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(MainActivity.this, "sucesso", Toast.LENGTH_SHORT).show();
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     /*private void preencheSpinner(){
@@ -85,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null,
                 null);
+        //getCursor();
 
         cca = new CustomCursorAdapter(MainActivity.this, c);
         lista.setAdapter(cca);
@@ -100,22 +144,44 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int index = info.position;
-        Nota nota = arrayNota.get(index);
+        int itemPosition = info.position;
+        c.moveToPosition(itemPosition);
+        int id_nota = c.getInt(c.getColumnIndex(Contrato.Nota._ID));
 
         switch (item.getItemId()){
             case R.id.editar:
-                Toast.makeText(this, "editado", Toast.LENGTH_SHORT).show();
+                finish();
+                Intent intent = new Intent (this, NotasActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.remover:
-                Toast.makeText(this, "removido", Toast.LENGTH_SHORT).show();
+                deleteFromBD(id_nota);
                 return true;
             default:
             return super.onContextItemSelected(item);
         }
-
-
     }
 
+    public void deleteFromBD(int id){
+        db.delete(Contrato.Nota.TABLE_NAME, Contrato.Nota._ID + " = ?", new String[]{id+""});
+        refresh();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(!c.isClosed()){
+            c.close();
+            c = null;
+        }
+        if(!c_notas.isClosed()){
+            c_notas.close();
+            c_notas = null;
+        }
+        if(db.isOpen()){
+            db.close();
+            db = null;
+        }
+    }
 }

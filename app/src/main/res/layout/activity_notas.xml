@@ -91,7 +91,7 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Digite a data no formato dd/mm/yyyy"
-            android:inputType="textPersonName"
+            android:inputType="date|textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/data_view"
             app:layout_constraintTop_toBottomOf="@+id/data_view" />
