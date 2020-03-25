@@ -1,4 +1,4 @@
-package com.example.cm_backup.entities;
+package com.example.cm_backup;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

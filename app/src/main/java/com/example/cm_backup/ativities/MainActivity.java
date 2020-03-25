@@ -1,47 +1,51 @@
 package com.example.cm_backup.ativities;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.cm_backup.NotaViewModel;
 import com.example.cm_backup.R;
-import com.example.cm_backup.adapters.CustomArrayAdapter;
-import com.example.cm_backup.entities.Nota;
+import com.example.cm_backup.adapters.NotaListAdapter;
+import com.example.cm_backup.Nota;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Nota> arrayNota;
+    private NotaViewModel mNotaViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        registerForContextMenu((ListView) findViewById(R.id.id_lista));
-        arrayNota = new ArrayList<>();
-        fillLista();
+        RecyclerView recyclerView = findViewById(R.id.id_lista);
+        final NotaListAdapter adapter = new NotaListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mNotaViewModel = ViewModelProviders.of(this).get(NotaViewModel.class);
+
+        mNotaViewModel.getAllNotas().observe(this, new Observer<List<Nota>>() {
+            @Override
+            public void onChanged(@Nullable final List<Nota> notas) {
+                // Update the cached copy of the words in the adapter.
+                adapter.setNotas(notas);
+            }
+        });
     }
 
-
-    private void fillLista(){
-        ArrayList<Nota> arrayItems = new ArrayList<>();
-        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
-        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
-        arrayItems.add(new Nota("Nota1", "descricao2", "data"));
-
-        CustomArrayAdapter itemsAdapter = new CustomArrayAdapter(this, arrayItems);
-        ((ListView) findViewById(R.id.id_lista)).setAdapter(itemsAdapter);
-    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

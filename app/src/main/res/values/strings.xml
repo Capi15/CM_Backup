@@ -3,4 +3,8 @@
     <string name="adicionar">adicionar</string>
     <string name="editar">editar</string>
     <string name="remover">remover</string>
+    <string name="prioridade">Prioridade</string>
+    <string name="data">Data</string>
+    <string name="descricao">Descrição</string>
+    <string name="titulo">Título</string>
 </resources>
