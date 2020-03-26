@@ -3,6 +3,7 @@ package com.example.cm_backup;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.cm_backup.Nota;
@@ -12,7 +13,7 @@ import java.util.List;
 @Dao
 public interface NotaDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Nota nota);
 
     @Query("DELETE FROM nota")

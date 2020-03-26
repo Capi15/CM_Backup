@@ -7,4 +7,5 @@
     <string name="data">Data</string>
     <string name="descricao">Descrição</string>
     <string name="titulo">Título</string>
+    <string name="empty_not_saved">Não houve dados guardados</string>
 </resources>
