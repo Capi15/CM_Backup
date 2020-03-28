@@ -13,10 +13,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.cm_backup.utils.Utils;
 import com.example.cm_backup.R;
 import com.example.cm_backup.adapters.CustomCursorAdapter;
 import com.example.cm_backup.db.Contrato;
@@ -26,6 +28,8 @@ import com.example.cm_backup.entities.Nota;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    TextView editTitulo;
 
     DB mDbHelper;
     SQLiteDatabase db;
@@ -45,10 +49,24 @@ public class MainActivity extends AppCompatActivity {
         mDbHelper = new DB(this);
         db = mDbHelper.getReadableDatabase();
 
+        /*ContentValues cv = new ContentValues();
+        cv.put(Contrato.Details.COLUMN_PRIORIDADE, "baixo");
+        cv.put(Contrato.Details.COLUMN_COMPLETO, 0);
+        db.insert(Contrato.Details.TABLE_NAME, null,cv);
+
+        cv = new ContentValues();
+        cv.put(Contrato.Nota._ID, NotasActivity.count);
+        cv.put(Contrato.Nota.COLUMN_TITULO ,"outra nota");
+        cv.put(Contrato.Nota.COLUMN_DESCRICAO, "ihfvh");
+        cv.put(Contrato.Nota.COLUMN_DATA, "22-03-2017");
+        db.insert(Contrato.Nota.TABLE_NAME, null,cv);*/
+
         lista = (ListView) findViewById(R.id.id_lista);
         registerForContextMenu(lista);
         spin = ((Spinner) findViewById(R.id.id_spinner));
         preencheLista();
+
+        editTitulo = (TextView)findViewById(R.id.titulo_id) ;
 
         //preencheSpinner();
     }
@@ -58,33 +76,20 @@ public class MainActivity extends AppCompatActivity {
         cca.swapCursor(c);
     }
 
-    /*private void getCursor() {
+    private void getCursor() {
         String sql = "select "
-                + Contrato.Nota.COLUMN_TITULO + ", " + Contrato.Nota.COLUMN_DESCRICAO
-                + ", " + Contrato.Nota.COLUMN_DATA + ", " + Contrato.Details.COLUMN_PRIORIDADE
-                + ", " + Contrato.Details.COLUMN_COMPLETO + " FROM "
+                + " * " +  " FROM "
                 + Contrato.Nota.TABLE_NAME + ", " + Contrato.Details.TABLE_NAME
                 + " WHERE " + Contrato.Nota.COLUMN_ID_DETAILS
                 + "=" + Contrato.Details.TABLE_NAME + "." + Contrato.Details._ID;
 
         c = db.rawQuery(sql, null);
-    }*/
-
-
-    private void getCursor() {
-        String sql = "select " + Contrato.Nota.TABLE_NAME + "."
-                + Contrato.Nota._ID + "," + Contrato.Details.TABLE_NAME
-                + " FROM " + Contrato.Nota.COLUMN_TITULO + ", " + Contrato.Nota.COLUMN_DESCRICAO
-                + ", " + Contrato.Nota.COLUMN_DATA + ", " + Contrato.Details.COLUMN_PRIORIDADE
-                + ", " + Contrato.Details.COLUMN_COMPLETO + " WHERE " + Contrato.Nota.COLUMN_ID_DETAILS
-                + "=" + Contrato.Details.TABLE_NAME + "." + Contrato.Details._ID;
-
-        c = db.rawQuery(sql, null);
     }
 
-    public void goToNotes (View view, int re){
+    public void goToNotes (View view){
         Intent intent = new Intent (this, NotasActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_OP_1);
+        startActivity(intent);
+        //startActivityForResult(intent, REQUEST_CODE_OP_1);
     }
 
     @Override
@@ -98,25 +103,6 @@ public class MainActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-    /*private void preencheSpinner(){
-        c_pessoas = db.rawQuery("select " + Contrato.Details._ID + ", "
-        + Contrato.Details.COLUMN_PRIORIDADE + " FROM "
-        + Contrato.Details.TABLE_NAME, null);
-
-        Spinner s = (Spinner) findViewById(R.id.spinner1);
-        String[] adapterCols = new String[]{Contrato.Nota.COLUMN_TITULO};
-        int[] adapterRowViews = new int[]{android.R.id.text1};
-
-        SimpleCursorAdapter sca = new SimpleCursorAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                c_pessoas,
-                adapterCols,
-                adapterRowViews, 0
-        );
-    }*/
-
 
     private void preencheLista(){
         c = db.query(false,
@@ -147,14 +133,18 @@ public class MainActivity extends AppCompatActivity {
         int itemPosition = info.position;
         c.moveToPosition(itemPosition);
         int id_nota = c.getInt(c.getColumnIndex(Contrato.Nota._ID));
+        String id_titulo = Contrato.Nota.COLUMN_TITULO;
 
         switch (item.getItemId()){
             case R.id.editar:
                 finish();
                 Intent intent = new Intent (this, NotasActivity.class);
-                startActivity(intent);
+                String[] notaParams = {String.valueOf(Nota.class)};
+                intent.putExtra("notaParams",notaParams);
+                startActivityForResult(intent, REQUEST_CODE_OP_1);
                 return true;
             case R.id.remover:
+                //Toast.makeText(MainActivity.this, id_nota, Toast.LENGTH_SHORT).show();
                 deleteFromBD(id_nota);
                 return true;
             default:

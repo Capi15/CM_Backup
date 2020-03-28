@@ -35,6 +35,7 @@ public class Contrato {
         public static final String SQL_DROP_ENTRIES =
                 "DROP TABLE " + Nota.TABLE_NAME + ";";
 
+
     }
 
     public static abstract class Details implements BaseColumns{
