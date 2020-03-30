@@ -22,7 +22,6 @@ public class NotasActivity extends AppCompatActivity {
     private EditText mEditDescricaoView;
     private EditText mEditDataView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +42,8 @@ public class NotasActivity extends AppCompatActivity {
             String titulo = mEditTituloView.getText().toString();
             String descricao = mEditDescricaoView.getText().toString();
             String data = mEditDataView.getText().toString();
-            replyIntent.putExtra(EXTRA_REPLY, titulo);
-            replyIntent.putExtra(EXTRA_REPLY, descricao);
-            replyIntent.putExtra(EXTRA_REPLY, data);
+            String[] nota = {titulo, descricao, data};
+            replyIntent.putExtra(EXTRA_REPLY, nota);
             setResult(RESULT_OK, replyIntent);
         }
         finish();

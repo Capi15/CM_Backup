@@ -1,11 +1,13 @@
 package com.example.cm_backup.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cm_backup.R;
@@ -27,11 +29,17 @@ public class NotaListAdapter extends RecyclerView.Adapter<NotaListAdapter.NotaVi
 
     @Override
     public void onBindViewHolder(NotaViewHolder holder, int position) {
+
         if (mNotas != null) {
             Nota current = mNotas.get(position);
             holder.rowTituloView.setText(current.getTitulo());
             holder.rowDescricaoView.setText(current.getDescricao());
             holder.rowDataView.setText(current.getData());
+            if(position % 2 == 0){
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.FirstColor));
+            }else{
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.SecondColor));
+            }
         } else {
             // Covers the case of data not being ready yet.
             holder.rowTituloView.setText("Não há notas");
@@ -41,6 +49,10 @@ public class NotaListAdapter extends RecyclerView.Adapter<NotaListAdapter.NotaVi
     public void setNotas(List<Nota> notas){
         mNotas = notas;
         notifyDataSetChanged();
+    }
+
+    public Nota getNotaAtPosition (int position) {
+        return mNotas.get(position);
     }
 
     // getItemCount() is called many times, and when it is first called,

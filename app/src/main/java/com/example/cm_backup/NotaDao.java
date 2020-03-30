@@ -2,6 +2,7 @@ package com.example.cm_backup;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,4 +22,12 @@ public interface NotaDao {
 
     @Query("SELECT * FROM nota ORDER BY titulo ASC")
     LiveData<List<Nota>> getAllNotas();
+
+
+    //verifica se existe pelo menos 1 nota
+    @Query("SELECT * from nota LIMIT 1")
+    Nota[] getAnyNota();
+
+    @Delete
+    void deleteNota(Nota nota);
 }

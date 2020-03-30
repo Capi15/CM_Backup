@@ -28,4 +28,12 @@ public class NotaViewModel extends AndroidViewModel {
     public LiveData<List<Nota>> getAllNotas() {
         return allNotas;
     }
+
+    public void deleteAll() {
+        mRepository.deleteAll();
+    }
+
+    public void deleteNota(Nota nota) {
+        mRepository.deleteNota(nota);
+    }
 }

@@ -17,6 +17,8 @@ public abstract class NotaRoomDatabase extends RoomDatabase {
     public abstract NotaDao notaDao();
     private static NotaRoomDatabase INSTANCE;
 
+
+
     //para que a classe seja do tipo singleton, ou seja, só possa ser instanciada uma vez
     public static NotaRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -59,14 +61,11 @@ public abstract class NotaRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            // Começa a aplicação sempre com uma base de dados vazia
-            // Não é preciso popular a base de dados
-            // quando é criada pela primeira vez
-            mDao.deleteAll();
-
-            for (int i = 0; i <= titulo.length - 1; i++) {
-                Nota nota = new Nota(titulo[i], descricoes[i], data[i]);
-                mDao.insert(nota);
+            if(mDao.getAnyNota().length < 1 ){
+                for (int i = 0; i <= titulo.length - 1; i++) {
+                    Nota nota = new Nota(titulo[i], descricoes[i], data[i]);
+                    mDao.insert(nota);
+                }
             }
             return null;
         }

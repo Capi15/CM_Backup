@@ -1,9 +1,11 @@
 package com.example.cm_backup.ativities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +51,34 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setNotas(notas);
             }
         });
+
+        ItemTouchHelper helper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                         int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        Nota myNota = adapter.getNotaAtPosition(position);
+                        Toast.makeText(MainActivity.this, "A apagar nota " +
+                                myNota.getTitulo(), Toast.LENGTH_LONG).show();
+
+                        // Apaga a minha nota
+                        mNotaViewModel.deleteNota(myNota);
+                    }
+                });
+
+        helper.attachToRecyclerView(recyclerView);
     }
+
+
 
     public void addNotas(View view) {
         Intent intent = new Intent(MainActivity.this, NotasActivity.class);
@@ -57,13 +87,32 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_1, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        //Apaga todas as Notas
+        if (id == R.id.clear_data) {
+            Toast.makeText(this, "Notas apagadas com sucesso",
+                    Toast.LENGTH_SHORT).show();
+
+            mNotaViewModel.deleteAll();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NOTAS_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             String[] notas = data.getStringArrayExtra(NotasActivity.EXTRA_REPLY);
-
-
             Nota nota = new Nota(notas[0], notas[1], notas[2]);
             mNotaViewModel.insert(nota);
         } else {
