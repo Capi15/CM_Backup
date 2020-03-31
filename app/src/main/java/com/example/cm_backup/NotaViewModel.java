@@ -36,4 +36,12 @@ public class NotaViewModel extends AndroidViewModel {
     public void deleteNota(Nota nota) {
         mRepository.deleteNota(nota);
     }
+
+    public void update(Nota nota) {
+        mRepository.update(nota);
+    }
+
+    public LiveData<Nota> getById(int id){
+        return mRepository.getById(id);
+    }
 }

@@ -3,10 +3,13 @@
     <string name="adicionar">adicionar</string>
     <string name="editar">editar</string>
     <string name="remover">remover</string>
-    <string name="prioridade">Prioridade</string>
     <string name="data">Data</string>
     <string name="descricao">Descrição</string>
     <string name="titulo">Título</string>
     <string name="empty_not_saved">Não houve dados guardados</string>
     <string name="limpar_notas">Limpar Notas</string>
+    <string name="unable_to_update">Upss! não foi possível atualizar</string>
+    <string name="digiteTitulo">Digite o título da sua nota</string>
+    <string name="digiteData">Digite a data no formato dd/mm/yyyy</string>
+    <string name="digiteDescricao">Digite o conteúdo da sua nota</string>
 </resources>

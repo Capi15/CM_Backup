@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.cm_backup.Nota;
 
@@ -30,4 +31,10 @@ public interface NotaDao {
 
     @Delete
     void deleteNota(Nota nota);
+
+    @Update
+    void update(Nota nota);
+
+    @Query("SELECT * FROM nota WHERE id = :id")
+    LiveData<Nota> getById(int id);
 }

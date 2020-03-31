@@ -10,17 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.cm_backup.R;
+import com.example.cm_backup.dto.EditNoteDto;
 
-import static com.example.cm_backup.ativities.MainActivity.NOTAS_ACTIVITY_REQUEST_CODE;
+import static com.example.cm_backup.ativities.MainActivity.EXTRA_DATA_FOR_UPDATE;
 
 public class NotasActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY =
             "com.example.cm_backup.ativities.REPLY";
+    public static final String EXTRA_REPLY_ID = "com.android.example.cm_backup.ativities.REPLY_ID";
 
     private EditText mEditTituloView;
     private EditText mEditDescricaoView;
     private EditText mEditDataView;
+    private static int id = -1;
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,28 @@ public class NotasActivity extends AppCompatActivity {
         mEditTituloView = findViewById(R.id.titulo_view_text);
         mEditDescricaoView = findViewById(R.id.descricao_view_text);
         mEditDataView = findViewById(R.id.data_view_text);
+
+        extras = getIntent().getExtras();
+
+        // permite passar os valores da atividade aterior para os campos desta atividade
+        if (extras != null) {
+            EditNoteDto oiNote = (EditNoteDto) extras.getSerializable(EXTRA_DATA_FOR_UPDATE);
+            if (oiNote != null) {
+                id = oiNote.id;
+                mEditTituloView.setText(oiNote.titulo);
+                mEditDescricaoView.setText(oiNote.descricao);
+                mEditDataView.setText(oiNote.data);
+                //mEditTituloView.setSelection(titulo.length());
+                //mEditDescricaoView.setSelection(descricao.length());
+                //mEditDataView.setSelection(data.length());
+                mEditTituloView.requestFocus();
+                mEditDescricaoView.requestFocus();
+                mEditDataView.requestFocus();
+            }
+        } // Otherwise, start with empty fields.
+
+        final Button button = findViewById(R.id.button_goToList);
+
 
     }
 
@@ -42,10 +68,11 @@ public class NotasActivity extends AppCompatActivity {
             String titulo = mEditTituloView.getText().toString();
             String descricao = mEditDescricaoView.getText().toString();
             String data = mEditDataView.getText().toString();
-            String[] nota = {titulo, descricao, data};
-            replyIntent.putExtra(EXTRA_REPLY, nota);
+            EditNoteDto novaNota = new EditNoteDto(id, titulo, descricao, data);
+            replyIntent.putExtra(EXTRA_REPLY, novaNota);
+
             setResult(RESULT_OK, replyIntent);
+            finish();
         }
-        finish();
     }
 }

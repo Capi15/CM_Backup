@@ -2,6 +2,7 @@ package com.example.cm_backup.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class NotaListAdapter extends RecyclerView.Adapter<NotaListAdapter.NotaVi
         else return 0;
     }
 
-    class NotaViewHolder extends RecyclerView.ViewHolder {
+    class NotaViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private final TextView rowTituloView;
         private final TextView rowDescricaoView;
         private final TextView rowDataView;
@@ -75,6 +76,12 @@ public class NotaListAdapter extends RecyclerView.Adapter<NotaListAdapter.NotaVi
             rowTituloView = itemView.findViewById(R.id.titulo_id);
             rowDescricaoView = itemView.findViewById(R.id.descricao_id);
             rowDataView = itemView.findViewById(R.id.data_id);
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(this.getAdapterPosition(), R.id.editar, 0, "Editar");
         }
     }
 }

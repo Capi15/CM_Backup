@@ -57,20 +57,6 @@
             app:layout_constraintTop_toBottomOf="@+id/descricao_view_text"
             app:layout_constraintVertical_weight="1" />
 
-        <TextView
-            android:id="@+id/prioridade_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/prioridade"
-            android:textColor="@android:color/black"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/data_view_text"
-            app:layout_constraintTop_toBottomOf="@+id/data_view_text" />
-
         <EditText
             android:id="@+id/titulo_view_text"
             android:layout_width="0dp"
@@ -96,32 +82,17 @@
             app:layout_constraintStart_toStartOf="@+id/data_view"
             app:layout_constraintTop_toBottomOf="@+id/data_view" />
 
-        <EditText
-            android:id="@+id/prioridade_view_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:ems="10"
-            android:hint="Digite o nível de prioridade da sua nota"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/button_goToList"
-            app:layout_constraintEnd_toEndOf="@+id/button_goToList"
-            app:layout_constraintStart_toStartOf="@+id/prioridade_view"
-            app:layout_constraintTop_toBottomOf="@+id/prioridade_view"
-            app:layout_constraintVertical_bias="0.0" />
-
         <Button
             android:id="@+id/button_goToList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto_medium"
             android:onClick="goToList"
             android:text="@string/adicionar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/data_view_text" />
 
         <EditText
             android:id="@+id/descricao_view_text"

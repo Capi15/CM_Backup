@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.ArrayList;
 
-@Database(entities = {Nota.class}, version = 1, exportSchema = false)
+@Database(entities = {Nota.class}, version = 2, exportSchema = false)
 public abstract class NotaRoomDatabase extends RoomDatabase {
 
     public abstract NotaDao notaDao();
