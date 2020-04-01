@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">CM_Backup</string>
+    <string name="adicionar">add</string>
+    <string name="editar">edit</string>
+    <string name="remover">remove</string>
+    <string name="data">Date</string>
+    <string name="descricao">Description</string>
+    <string name="titulo">Title</string>
+    <string name="empty_not_saved">No data saved</string>
+    <string name="limpar_notas">Clean all notes</string>
+    <string name="unable_to_update">Upss! the update wasn\'t possible</string>
+    <string name="digiteTitulo">Type your note title</string>
+    <string name="digiteData">Type the note date with this format dd/mm/yyyy</string>
+    <string name="digiteDescricao">Type any description to your note</string>
+</resources>

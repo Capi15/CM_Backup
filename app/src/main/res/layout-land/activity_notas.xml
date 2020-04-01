@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ativities.NotasActivity">
+
+        <TextView
+            android:id="@+id/titulo_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/titulo"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1" />
+
+        <TextView
+            android:id="@+id/descricao_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/descricao"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/titulo_view_text"
+            app:layout_constraintTop_toBottomOf="@+id/titulo_view_text"
+            app:layout_constraintVertical_weight="1" />
+
+        <TextView
+            android:id="@+id/data_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/data"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="@+id/descricao_view_text"
+            app:layout_constraintStart_toEndOf="@+id/titulo_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1" />
+
+        <EditText
+            android:id="@+id/titulo_view_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/digiteTitulo"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/titulo_view"
+            app:layout_constraintTop_toBottomOf="@+id/titulo_view"
+            android:autofillHints="" />
+
+        <EditText
+            android:id="@+id/data_view_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/digiteData"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="@+id/descricao_view_text"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/data_view"
+            app:layout_constraintTop_toBottomOf="@+id/data_view" />
+
+        <Button
+            android:id="@+id/button_goToList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:onClick="goToList"
+            android:text="@string/adicionar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descricao_view_text" />
+
+        <EditText
+            android:id="@+id/descricao_view_text"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/digiteDescricao"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/descricao_view"
+            app:layout_constraintTop_toBottomOf="@+id/descricao_view" />"
+        app:layout_constraintVertical_weight="1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
