@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ativities.NotasActivity"></activity>
-        <activity android:name=".ativities.MainActivity">
+        <activity android:name=".ativities.NotasStartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

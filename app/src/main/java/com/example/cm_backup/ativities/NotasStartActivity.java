@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +28,7 @@ import com.example.cm_backup.dto.EditNoteDto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class NotasStartActivity extends AppCompatActivity{
 
     ArrayList<Nota> arrayNota;
     public static final int NOTAS_ACTIVITY_REQUEST_CODE = 1;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_notas_start);
         RecyclerView recyclerView = findViewById(R.id.id_lista);
         adapter = new NotaListAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        /*ItemTouchHelper helper = new ItemTouchHelper(
+        ItemTouchHelper helper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0,
                         ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                     @Override
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
 
                         int position = viewHolder.getAdapterPosition();
                         Nota myNota = adapter.getNotaAtPosition(position);
-                        Toast.makeText(MainActivity.this, "A apagar nota " +
+                        Toast.makeText(NotasStartActivity.this, "A apagar nota " +
                                 myNota.getTitulo(), Toast.LENGTH_LONG).show();
 
                         // Apaga a minha nota
@@ -84,11 +83,11 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
 
-        helper.attachToRecyclerView(recyclerView);*/
+        helper.attachToRecyclerView(recyclerView);
     }
 
     public void addNotas(View view) {
-        Intent intent = new Intent(MainActivity.this, NotasActivity.class);
+        Intent intent = new Intent(NotasStartActivity.this, NotasActivity.class);
         startActivityForResult(intent, NOTAS_ACTIVITY_REQUEST_CODE);
     }
 
@@ -145,13 +144,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.context_menu, menu);
-    }
-
-    @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         Toast.makeText(this, "clicado", Toast.LENGTH_SHORT).show();
@@ -165,8 +157,6 @@ public class MainActivity extends AppCompatActivity{
             default:
                 return super.onContextItemSelected(item);
         }
-
-
     }
 
     public void goToUpdate(Nota nota) {

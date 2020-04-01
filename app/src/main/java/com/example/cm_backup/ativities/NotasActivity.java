@@ -6,19 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.cm_backup.R;
 import com.example.cm_backup.dto.EditNoteDto;
 
-import static com.example.cm_backup.ativities.MainActivity.EXTRA_DATA_FOR_UPDATE;
+import static com.example.cm_backup.ativities.NotasStartActivity.EXTRA_DATA_FOR_UPDATE;
 
 public class NotasActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY =
             "com.example.cm_backup.ativities.REPLY";
-    public static final String EXTRA_REPLY_ID = "com.android.example.cm_backup.ativities.REPLY_ID";
 
     private EditText mEditTituloView;
     private EditText mEditDescricaoView;
@@ -44,18 +42,11 @@ public class NotasActivity extends AppCompatActivity {
                 mEditTituloView.setText(oiNote.titulo);
                 mEditDescricaoView.setText(oiNote.descricao);
                 mEditDataView.setText(oiNote.data);
-                //mEditTituloView.setSelection(titulo.length());
-                //mEditDescricaoView.setSelection(descricao.length());
-                //mEditDataView.setSelection(data.length());
                 mEditTituloView.requestFocus();
                 mEditDescricaoView.requestFocus();
                 mEditDataView.requestFocus();
             }
         } // Otherwise, start with empty fields.
-
-        final Button button = findViewById(R.id.button_goToList);
-
-
     }
 
 
@@ -70,7 +61,6 @@ public class NotasActivity extends AppCompatActivity {
             String data = mEditDataView.getText().toString();
             EditNoteDto novaNota = new EditNoteDto(id, titulo, descricao, data);
             replyIntent.putExtra(EXTRA_REPLY, novaNota);
-
             setResult(RESULT_OK, replyIntent);
             finish();
         }
