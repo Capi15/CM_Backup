@@ -26,15 +26,6 @@ public class Nota {
     @NonNull
     @ColumnInfo(name = "data")
     private String data;
-    //private Date data;
-
-
-
-    /*public Nota(@NonNull String titulo, @NonNull String descricao, @NonNull String data) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.data = data;
-    }*/
 
 
     public Nota(@NonNull String titulo, @NonNull String descricao, @NonNull String data) {

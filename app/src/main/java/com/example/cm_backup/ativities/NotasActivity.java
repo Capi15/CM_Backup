@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.cm_backup.R;
 import com.example.cm_backup.dto.EditNoteDto;
@@ -20,7 +21,7 @@ public class NotasActivity extends AppCompatActivity {
 
     private EditText mEditTituloView;
     private EditText mEditDescricaoView;
-    private EditText mEditDataView;
+    private TextView mEditDataView;
     private static int id = -1;
     Bundle extras;
 
@@ -30,7 +31,7 @@ public class NotasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notas);
         mEditTituloView = findViewById(R.id.titulo_view_text);
         mEditDescricaoView = findViewById(R.id.descricao_view_text);
-        mEditDataView = findViewById(R.id.data_view_text);
+        mEditDataView = findViewById(R.id.data_view);
 
         extras = getIntent().getExtras();
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -46,15 +46,17 @@
             android:id="@+id/data_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/data"
             android:textColor="@android:color/black"
             android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/button_goToList"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/descricao_view_text"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descricao_view_text"
+            app:layout_constraintVertical_bias="1.0"
             app:layout_constraintVertical_weight="1" />
 
         <EditText
@@ -70,29 +72,17 @@
             app:layout_constraintStart_toStartOf="@+id/titulo_view"
             app:layout_constraintTop_toBottomOf="@+id/titulo_view" />
 
-        <EditText
-            android:id="@+id/data_view_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Digite a data no formato dd/mm/yyyy"
-            android:inputType="date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/data_view"
-            app:layout_constraintTop_toBottomOf="@+id/data_view" />
-
         <Button
             android:id="@+id/button_goToList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/roboto_medium"
             android:onClick="goToList"
             android:text="@string/adicionar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/data_view_text" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
             android:id="@+id/descricao_view_text"

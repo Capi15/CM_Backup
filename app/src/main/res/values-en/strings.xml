@@ -12,4 +12,5 @@
     <string name="digiteTitulo">Type your note title</string>
     <string name="digiteData">Type the note date with this format dd/mm/yyyy</string>
     <string name="digiteDescricao">Type any description to your note</string>
+    <string name="NotaVazia">Ups the note was empty!</string>
 </resources>

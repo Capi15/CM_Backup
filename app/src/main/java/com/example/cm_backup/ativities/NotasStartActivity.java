@@ -25,7 +25,9 @@ import com.example.cm_backup.adapters.NotaListAdapter;
 import com.example.cm_backup.Nota;
 import com.example.cm_backup.dto.EditNoteDto;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class NotasStartActivity extends AppCompatActivity{
@@ -33,11 +35,11 @@ public class NotasStartActivity extends AppCompatActivity{
     ArrayList<Nota> arrayNota;
     public static final int NOTAS_ACTIVITY_REQUEST_CODE = 1;
     public static final int NOTAS_ACTIVITYUPDATE_REQUEST_CODE = 2;
-
     public static final String EXTRA_DATA_FOR_UPDATE = "extra_data_for_update";
-
     private NotaViewModel mNotaViewModel;
     NotaListAdapter adapter;
+    Calendar calendar = Calendar.getInstance();
+    final String data_nota = DateFormat.getDateInstance().format(calendar.getTime());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,6 @@ public class NotasStartActivity extends AppCompatActivity{
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mNotaViewModel = ViewModelProviders.of(this).get(NotaViewModel.class);
-
         mNotaViewModel.getAllNotas().observe(this, new Observer<List<Nota>>() {
             @Override
             public void onChanged(@Nullable final List<Nota> notas) {
@@ -116,12 +117,13 @@ public class NotasStartActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         final EditNoteDto notas = (EditNoteDto) data.getSerializableExtra(NotasActivity.EXTRA_REPLY);
-
         if (requestCode == NOTAS_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Nota nota = new Nota(notas.titulo, notas.descricao, notas.data);
-            mNotaViewModel.insert(nota);
+            Nota nota = new Nota(notas.titulo, notas.descricao, data_nota);
+            if(nota.getTitulo() != "" && nota.getDescricao() != ""){
+                mNotaViewModel.insert(nota);
+            }
+            Toast.makeText(this, R.string.NotaVazia, Toast.LENGTH_SHORT).show();
         }else if (requestCode == NOTAS_ACTIVITYUPDATE_REQUEST_CODE && resultCode == RESULT_OK){
             mNotaViewModel.getById(notas.id).observe(this, new Observer<Nota>() {
                 @Override
@@ -129,7 +131,7 @@ public class NotasStartActivity extends AppCompatActivity{
                     if (nota != null) {
                         nota.setTitulo(notas.titulo);
                         nota.setDescricao(notas.descricao);
-                        nota.setData(notas.data);
+                        nota.setData(data_nota);
                         mNotaViewModel.update(nota);
                         mNotaViewModel.getById(notas.id).removeObserver(this);
                     }

@@ -12,4 +12,5 @@
     <string name="digiteTitulo">Digite o título da sua nota</string>
     <string name="digiteData">Digite a data no formato dd/mm/yyyy</string>
     <string name="digiteDescricao">Digite o conteúdo da sua nota</string>
+    <string name="NotaVazia">Ups a sua Nota estava vazia</string>
 </resources>
