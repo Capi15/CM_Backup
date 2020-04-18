@@ -11,15 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.cm_backup.MapsActivity;
 import com.example.cm_backup.NotaViewModel;
 import com.example.cm_backup.R;
 import com.example.cm_backup.adapters.NotaListAdapter;
@@ -37,6 +34,8 @@ public class NotasStartActivity extends AppCompatActivity{
     public static final int NOTAS_ACTIVITY_REQUEST_CODE = 1;
     public static final int NOTAS_ACTIVITYUPDATE_REQUEST_CODE = 2;
     public static final String EXTRA_DATA_FOR_UPDATE = "extra_data_for_update";
+    public static final String EXTRA_ID = "extra_id";
+
     private NotaViewModel mNotaViewModel;
     NotaListAdapter adapter;
     Calendar calendar = Calendar.getInstance();
@@ -123,8 +122,9 @@ public class NotasStartActivity extends AppCompatActivity{
             Nota nota = new Nota(notas.titulo, notas.descricao, data_nota);
             if(nota.getTitulo() != "" && nota.getDescricao() != ""){
                 mNotaViewModel.insert(nota);
+            }else {
+                Toast.makeText(this, R.string.NotaVazia, Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, R.string.NotaVazia, Toast.LENGTH_SHORT).show();
         }else if (requestCode == NOTAS_ACTIVITYUPDATE_REQUEST_CODE && resultCode == RESULT_OK){
             mNotaViewModel.getById(notas.id).observe(this, new Observer<Nota>() {
                 @Override
@@ -164,14 +164,20 @@ public class NotasStartActivity extends AppCompatActivity{
 
     public void goToUpdate(Nota nota) {
         Intent intent = new Intent(this, NotasActivity.class);
-        intent.putExtra(EXTRA_DATA_FOR_UPDATE,
+        /*intent.putExtra(EXTRA_DATA_FOR_UPDATE,
                 new EditNoteDto(
                     nota.getId(),
                     nota.getTitulo(),
                     nota.getDescricao(),
                     nota.getData()
                 )
-        );
+        );*/
+        intent.putExtra(EXTRA_DATA_FOR_UPDATE, nota.getTitulo());
+        intent.putExtra(EXTRA_ID, nota.getId());
+
+        String[] notaParams = {String.valueOf(nota.getId()), String.valueOf(nota.getTitulo()),
+                String.valueOf(nota.getDescricao()), String.valueOf(nota.getData())};
+        intent.putExtra("notaParams", notaParams);
         startActivityForResult(intent, NOTAS_ACTIVITYUPDATE_REQUEST_CODE);
     }
 

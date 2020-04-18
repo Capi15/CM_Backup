@@ -1,4 +1,4 @@
-package com.example.cm_backup;
+package com.example.cm_backup.ativities;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -7,18 +7,23 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.cm_backup.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PointOfInterest;
 
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    PointOfInterest poi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         // Add a marker in Sydney and move the camera
-        LatLng forjaes = new LatLng(41.6045637,-8.7515034);
+        LatLng forjaes = new LatLng(41.6045637, -8.7515034);
         mMap.addMarker(new MarkerOptions().position(forjaes).title("Forjães"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(forjaes, 10));
         setMapLongClick(mMap);
@@ -56,18 +61,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-
                 String snippet = String.format(Locale.getDefault(),
                         "Lat: %1$.5f, Long: %2$.5f",
                         latLng.latitude,
                         latLng.longitude);
                 map.addMarker(new MarkerOptions().position(latLng).title(getString(R.string.marco))
                         .snippet(snippet));
+
+                map.setOnPoiClickListener(new GoogleMap.OnPoiClickListener() {
+                    @Override
+                    public void onPoiClick(PointOfInterest poi) {
+                        Marker poiMarker = mMap.addMarker(new MarkerOptions()
+                                .position(poi.latLng)
+                                .title(poi.name)
+                                .icon(BitmapDescriptorFactory.defaultMarker
+                                        (BitmapDescriptorFactory.HUE_BLUE)));
+                    }
+                });
             }
         });
     }
 
-    private void setPoiClick(final GoogleMap map) {}
+    private void setPoiClick(final GoogleMap map) {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,3 +114,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 }
+

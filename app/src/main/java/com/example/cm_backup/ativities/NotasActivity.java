@@ -23,7 +23,6 @@ public class NotasActivity extends AppCompatActivity {
     private EditText mEditDescricaoView;
     private TextView mEditDataView;
     private static int id = -1;
-    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +31,12 @@ public class NotasActivity extends AppCompatActivity {
         mEditTituloView = findViewById(R.id.titulo_view_text);
         mEditDescricaoView = findViewById(R.id.descricao_view_text);
         mEditDataView = findViewById(R.id.data_view);
+        String[] nota = getIntent().getStringArrayExtra("notaParams");
 
-        extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
 
         // permite passar os valores da atividade aterior para os campos desta atividade
-        if (extras != null) {
+        /*if (extras != null) {
             EditNoteDto oiNote = (EditNoteDto) extras.getSerializable(EXTRA_DATA_FOR_UPDATE);
             if (oiNote != null) {
                 id = oiNote.id;
@@ -46,8 +46,17 @@ public class NotasActivity extends AppCompatActivity {
                 mEditTituloView.requestFocus();
                 mEditDescricaoView.requestFocus();
                 mEditDataView.requestFocus();
-            }
-        } // Otherwise, start with empty fields.
+            }*/
+
+            if (extras != null) {
+        String notas = extras.getString(EXTRA_DATA_FOR_UPDATE, "");
+        if (!notas.isEmpty()) {
+            id = Integer.valueOf(nota[0]);
+            mEditTituloView.setText(nota[1]);
+            mEditDescricaoView.setText(nota[2]);
+            mEditDataView.setText(nota[3]);
+        }
+        } // Caso contrario os capos ficam vazios
     }
 
 
