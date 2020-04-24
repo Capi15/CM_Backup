@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.example.cm_backup.MapsActivity;
 import com.example.cm_backup.NotaViewModel;
 import com.example.cm_backup.R;
 import com.example.cm_backup.adapters.NotaListAdapter;
@@ -181,8 +182,15 @@ public class NotasStartActivity extends AppCompatActivity{
         startActivityForResult(intent, NOTAS_ACTIVITYUPDATE_REQUEST_CODE);
     }
 
-    public void goToMap(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
+    public void voltar(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
+    }
+
+    public void goMyNotes(View view) {
+        Intent intent = new Intent(NotasStartActivity.this, LoginActivity.class);
+        startActivity(intent);
+
     }
 }
