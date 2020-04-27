@@ -1,4 +1,4 @@
-package com.example.cm_backup.ativities;
+package com.example.cm_backup;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ public class MyCustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         SharedPreferences googleBug = getSharedPreferences("google_bug_154855417", Context.MODE_PRIVATE);
         if (!googleBug.contains("fixed")) {
             File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
@@ -19,5 +20,6 @@ public class MyCustomApplication extends Application {
             googleBug.edit().putBoolean("fixed", true).apply();
         }
     }
+
 
 }

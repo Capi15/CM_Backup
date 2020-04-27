@@ -1,4 +1,4 @@
-package com.example.cm_backup;
+package com.example.cm_backup.ativities;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -7,13 +7,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toolbar;
 
-import com.example.cm_backup.ativities.GuardaLocActivity;
-import com.example.cm_backup.ativities.LoginActivity;
+import com.example.cm_backup.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,6 +24,7 @@ import com.google.android.gms.maps.model.PointOfInterest;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
     private GoogleMap mMap;
     PointOfInterest poi;
 
@@ -35,15 +33,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        //Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(myToolbar);
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
 
-        //button = (Button) findViewById()
+    public void guardaLocalizacao(View view) {
+        Intent intent = new Intent(MapsActivity.this, GuardaLocActivity.class);
+        startActivity(intent);
     }
 
 
@@ -132,10 +129,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void guardaLocalizacao(View view) {
-        Intent intent = new Intent(MapsActivity.this, GuardaLocActivity.class);
-        startActivity(intent);
     }
 }

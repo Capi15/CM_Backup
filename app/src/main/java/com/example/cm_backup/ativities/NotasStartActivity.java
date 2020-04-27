@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.cm_backup.MapsActivity;
 import com.example.cm_backup.NotaViewModel;
 import com.example.cm_backup.R;
 import com.example.cm_backup.adapters.NotaListAdapter;

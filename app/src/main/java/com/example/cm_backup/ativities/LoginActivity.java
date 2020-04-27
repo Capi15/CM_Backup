@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.cm_backup.MapsActivity;
 import com.example.cm_backup.R;
 
 public class LoginActivity extends AppCompatActivity {
