@@ -96,4 +96,9 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, NotasStartActivity.class);
         startActivity(intent);
     }
+
+    public void goToRegistar(View view) {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
+    }
 }

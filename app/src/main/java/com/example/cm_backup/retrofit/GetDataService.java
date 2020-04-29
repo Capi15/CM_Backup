@@ -25,7 +25,7 @@ public interface GetDataService {
     Call<User> login(@Body User user);
 
     @POST("register")
-    Call<User> register();
+    Call<User> register(@Body User user);
 
     @POST("logout")
     Call<User> logout();
