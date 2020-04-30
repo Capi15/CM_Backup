@@ -12,8 +12,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import static com.example.cm_backup.ativities.MapsActivity.EXTRA_LAT;
+import static com.example.cm_backup.ativities.MapsActivity.EXTRA_LONG;
+
 public class GuardaLocActivity extends AppCompatActivity {
 
     private static final int REQUEST_LOCATION = 1;
@@ -32,6 +38,10 @@ public class GuardaLocActivity extends AppCompatActivity {
     private TextView textLatLong;
     private ImageView imageView;
     private Button button;
+    private EditText et_titulo, et_descricao;
+    private Boolean isClick;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +49,15 @@ public class GuardaLocActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guarda_loc);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Intent intent = getIntent();
+        latitude = intent.getDoubleExtra(EXTRA_LAT, 0.0);
+        longitude = intent.getDoubleExtra(EXTRA_LONG, 0.0);
+
         textLatLong = findViewById(R.id.textLatLong);
         imageView = findViewById(R.id.image_guarda);
         button = findViewById(R.id.button_guarda);
+        et_titulo = findViewById(R.id.tit_guarda_text);
+        et_descricao = findViewById(R.id.desc_guarda_text);
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -114,31 +130,31 @@ public class GuardaLocActivity extends AppCompatActivity {
     }
 
     public void getCurrentLocation() {
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(3000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationServices.getFusedLocationProviderClient(GuardaLocActivity.this)
-                .requestLocationUpdates(locationRequest, new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-                        LocationServices.getFusedLocationProviderClient(GuardaLocActivity.this);
-                        if (locationResult != null && locationResult.getLocations().size() > 0) {
-                            int latestLocationIndex = locationResult.getLocations().size() - 1;
-                            double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
-                            double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
-                            textLatLong.setText(
-                                    String.format(
-                                            "Latitude: %s\nLongitude: %s",
-                                            latitude,
-                                            longitude
-                                    )
-                            );
-                        }
-                    }
-                }, Looper.getMainLooper());
+            textLatLong.setText(
+                    String.format(
+                            "Latitude: %s\nLongitude: %s",
+                            latitude,
+                            longitude
+                    )
+            );
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.adiciona_problema) {
+            Intent intent = new Intent(GuardaLocActivity.this, MapsActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Problema criado com sucesso", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

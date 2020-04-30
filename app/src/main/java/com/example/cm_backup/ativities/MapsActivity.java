@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.media.session.MediaSession;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +18,11 @@ import android.widget.Toast;
 import com.example.cm_backup.R;
 import com.example.cm_backup.retrofit.GetDataService;
 import com.example.cm_backup.retrofit.RetrofitClientInstance;
-import com.example.cm_backup.retrofit.Token;
 import com.example.cm_backup.retrofit.User;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,7 +34,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
 
 import static com.example.cm_backup.ativities.LoginActivity.MyPREFERENCES;
-import static com.example.cm_backup.ativities.LoginActivity.TOKEN;
 
 import java.util.Locale;
 
@@ -41,7 +44,9 @@ import retrofit2.Response;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    PointOfInterest poi;
+    private boolean isClick = false;
+    public static final String EXTRA_LAT = "latitude";
+    public static final String EXTRA_LONG = "longitude";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -54,17 +59,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void guardaLocalizacao(View view) {
-        Intent intent = new Intent(MapsActivity.this, GuardaLocActivity.class);
-        startActivity(intent);
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationServices.getFusedLocationProviderClient(MapsActivity.this)
+                .requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(MapsActivity.this);
+                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                            int latestLocationIndex = locationResult.getLocations().size() - 1;
+                            double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                            double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                            Intent intent = new Intent(MapsActivity.this, GuardaLocActivity.class);
+                            intent.putExtra(EXTRA_LAT, latitude);
+                            intent.putExtra(EXTRA_LONG, longitude);
+                            startActivity(intent);
+                        }
+                    }
+                }, Looper.getMainLooper());
+        //intent.putExtra(EXTRA_LAT, longitude);
+        //intent.putExtra(EXTRA_LONG, latitude);
+
+
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        this.isClick = true;
         mMap = googleMap;
 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        // Add a marker in Sydney and move the camera
         LatLng forjaes = new LatLng(41.6045637, -8.7515034);
         mMap.addMarker(new MarkerOptions().position(forjaes).title("Forjães"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(forjaes, 10));
@@ -82,52 +109,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         latLng.longitude);
                 map.addMarker(new MarkerOptions().position(latLng).title(getString(R.string.marco))
                         .snippet(snippet));
+                Intent intent = new Intent(MapsActivity.this, GuardaLocActivity.class);
+                intent.putExtra(EXTRA_LAT, latLng.latitude);
+                intent.putExtra(EXTRA_LONG, latLng.longitude);
+                startActivity(intent);
 
-                map.setOnPoiClickListener(new GoogleMap.OnPoiClickListener() {
-                    @Override
-                    public void onPoiClick(PointOfInterest poi) {
-                        Marker poiMarker = mMap.addMarker(new MarkerOptions()
-                                .position(poi.latLng)
-                                .title(poi.name)
-                                .icon(BitmapDescriptorFactory.defaultMarker
-                                        (BitmapDescriptorFactory.HUE_BLUE)));
-                    }
-                });
             }
         });
     }
-
-    private void setPoiClick(final GoogleMap map) {
-
-    }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.map_options, menu);
-        return true;
-    }*/
-
-    //@Override
-    /*public boolean onOptionsItemSelected(MenuItem item) {
-        // Change the map type based on the user's selection.
-        switch (item.getItemId()) {
-            case R.id.normal_map:
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                return true;
-            case R.id.hybrid_map:
-                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                return true;
-            case R.id.satellite_map:
-                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                return true;
-            case R.id.terrain_map:
-                mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
