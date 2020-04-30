@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
+    @SerializedName("id")
+    @Expose
+    private Long id;
     @SerializedName("name")
     @Expose
     private String nome;
@@ -30,6 +33,14 @@ public class User {
         this.nome = nome;
         this.email = email;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {

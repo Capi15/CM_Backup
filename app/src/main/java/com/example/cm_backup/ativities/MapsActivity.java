@@ -3,14 +3,22 @@ package com.example.cm_backup.ativities;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.session.MediaSession;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.cm_backup.R;
+import com.example.cm_backup.retrofit.GetDataService;
+import com.example.cm_backup.retrofit.RetrofitClientInstance;
+import com.example.cm_backup.retrofit.Token;
+import com.example.cm_backup.retrofit.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,7 +29,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
 
+import static com.example.cm_backup.ativities.LoginActivity.MyPREFERENCES;
+import static com.example.cm_backup.ativities.LoginActivity.TOKEN;
+
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -129,5 +144,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goLogout(View view) {
+        SharedPreferences getPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String token = getPreferences.getString("TOKEN", "");
+        if (token != null) {
+            GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+            Call<User> call = service.logout(token);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    //Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_SHORT).show();
+                    if(response != null){
+                        Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MapsActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Não foi possivel fazer o logout", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Dados não reconhecidos", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
     }
 }

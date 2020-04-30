@@ -48,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Registo efetuado com sucesso", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Não foi possivel efetuar o registo", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -56,5 +58,11 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Dados não reconhecidos", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void goToLogin(View view) {
+        finish();
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 }

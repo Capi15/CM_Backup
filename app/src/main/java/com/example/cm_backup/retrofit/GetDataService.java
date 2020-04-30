@@ -5,6 +5,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
@@ -16,10 +17,10 @@ public interface GetDataService {
     Call<Problema> getThisProblema();
 
     @POST("nota")
-    Call<List<Problema>> postProblema();
+    Call<Problema> postProblema();
 
     @PUT("nota/{nota}")
-    Call<List<Problema>> putProblema();
+    Call<Problema> putProblema();
 
     @POST("login")
     Call<User> login(@Body User user);
@@ -28,5 +29,5 @@ public interface GetDataService {
     Call<User> register(@Body User user);
 
     @POST("logout")
-    Call<User> logout();
+    Call<User> logout(@Header("Authorization") String api_token);
 }

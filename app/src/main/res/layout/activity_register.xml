@@ -76,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:text="Voltar"
+        android:onClick="goToLogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/registar_registar"
         app:layout_constraintStart_toStartOf="@+id/registar_registar"
