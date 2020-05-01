@@ -1,7 +1,6 @@
 package com.example.cm_backup.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cm_backup.R;
-import com.example.cm_backup.Nota;
+import com.example.cm_backup.classes.Nota;
 
 import java.util.List;
 

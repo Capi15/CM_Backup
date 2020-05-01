@@ -1,4 +1,4 @@
-package com.example.cm_backup;
+package com.example.cm_backup.classes;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,8 +7,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
-
-import com.example.cm_backup.Nota;
 
 import java.util.List;
 

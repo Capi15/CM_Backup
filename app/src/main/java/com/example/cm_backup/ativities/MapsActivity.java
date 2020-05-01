@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.cm_backup.R;
 import com.example.cm_backup.retrofit.GetDataService;
+import com.example.cm_backup.retrofit.Problema;
 import com.example.cm_backup.retrofit.RetrofitClientInstance;
 import com.example.cm_backup.retrofit.User;
 import com.google.android.gms.location.LocationCallback;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.PointOfInterest;
 
 import static com.example.cm_backup.ativities.LoginActivity.MyPREFERENCES;
 
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -56,6 +58,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        SharedPreferences getPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String token = getPreferences.getString("TOKEN", "");
+        if (token != null) {
+            GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+            Call<List<Problema>> call = service.getAllProblemas();
+        }
+
     }
 
     public void guardaLocalizacao(View view) {

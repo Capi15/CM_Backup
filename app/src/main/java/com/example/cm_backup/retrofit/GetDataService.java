@@ -17,7 +17,7 @@ public interface GetDataService {
     Call<Problema> getThisProblema();
 
     @POST("nota")
-    Call<Problema> postProblema();
+    Call<Problema> postProblema(@Header("Authorization") String api_token, @Body() Problema problema);
 
     @PUT("nota/{nota}")
     Call<Problema> putProblema();

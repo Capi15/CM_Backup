@@ -17,10 +17,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.cm_backup.NotaViewModel;
+import com.example.cm_backup.classes.NotaViewModel;
 import com.example.cm_backup.R;
 import com.example.cm_backup.adapters.NotaListAdapter;
-import com.example.cm_backup.Nota;
+import com.example.cm_backup.classes.Nota;
 import com.example.cm_backup.dto.EditNoteDto;
 
 import java.text.DateFormat;

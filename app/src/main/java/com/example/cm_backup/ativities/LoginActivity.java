@@ -59,15 +59,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.body() != null){
+                    finish();
                     Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
                     startActivity(intent);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                    editor.putString("ID", response.body().getId().toString());
+                    editor.putLong("ID", response.body().getId());
                     editor.putString("TOKEN", response.body().getApi_token());
                     editor.commit();
                     //Toast.makeText(LoginActivity.this, valueOf(sharedpreferences.getString("ID", "")),Toast.LENGTH_LONG).show();
-                    Toast.makeText(LoginActivity.this, valueOf(sharedpreferences.getString("TOKEN", "")),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this, valueOf(sharedpreferences.getString("TOKEN", "")),Toast.LENGTH_LONG).show();
                     Toast.makeText(LoginActivity.this, "Bem Vindo" ,Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(getApplicationContext(), "Os dados introduzidos estão incorretos", Toast.LENGTH_SHORT).show();

@@ -19,14 +19,17 @@ public class Problema {
     @SerializedName("latitude")
     @Expose
     private double latitude;
+    @SerializedName("user_id")
+    @Expose
+    private Long user_id;
 
-
-    public Problema(String titulo, String descricao, String foto, double longitude, double latitude) {
+    public Problema(String titulo, String descricao, String foto, double longitude, double latitude, Long user_id) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.foto = foto;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.user_id = user_id;
     }
 
     public String getTitulo() {
@@ -67,5 +70,13 @@ public class Problema {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 }
