@@ -11,7 +11,7 @@ import retrofit2.http.PUT;
 
 public interface GetDataService {
     @GET("nota")
-    Call<List<Problema>> getAllProblemas();
+    Call<List<Problema>> getAllProblemas(@Header("Authorization") String api_token);
 
     @GET("nota/{nota}")
     Call<Problema> getThisProblema();

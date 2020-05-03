@@ -49,6 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean isClick = false;
     public static final String EXTRA_LAT = "latitude";
     public static final String EXTRA_LONG = "longitude";
+    private List<Problema> listaProblemas;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -59,15 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        SharedPreferences getPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        String token = getPreferences.getString("TOKEN", "");
-        if (token != null) {
-            GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-            Call<List<Problema>> call = service.getAllProblemas();
-        }
-
     }
+
 
     public void guardaLocalizacao(View view) {
         LocationRequest locationRequest = new LocationRequest();
@@ -107,7 +101,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(forjaes).title("Forjães"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(forjaes, 10));
         setMapLongClick(mMap);
+
+        SharedPreferences getPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String token = getPreferences.getString("TOKEN", "");
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<List<Problema>> call = service.getAllProblemas(token);
+        call.enqueue(new Callback<List<Problema>>() {
+            @Override
+            public void onResponse(Call<List<Problema>> call, Response<List<Problema>> response) {
+                if(response.body() != null){
+                    listaProblemas = response.body();
+                    makeMarker();
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Problema>> call, Throwable t) {
+
+            }
+        });
     }
+
+        private void makeMarker(){
+            for (int i = 0; i < listaProblemas.size(); i ++) {
+                mMap.addMarker(
+                        new MarkerOptions()
+                                .position(new LatLng(listaProblemas.get(i).getLatitude(), listaProblemas.get(i).getLongitude()))
+                                .title(listaProblemas.get(i).getTitulo()));
+            }
+        }
 
 
     private void setMapLongClick(final GoogleMap map) {
@@ -156,11 +180,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     //Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_SHORT).show();
-                    if(response != null){
+                    if (response != null) {
                         Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MapsActivity.this, LoginActivity.class);
                         startActivity(intent);
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Não foi possivel fazer o logout", Toast.LENGTH_SHORT).show();
                     }
                 }

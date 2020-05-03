@@ -217,7 +217,8 @@ public class GuardaLocActivity extends AppCompatActivity {
 
             String ti = et_titulo.getText().toString();
             String de = et_descricao.getText().toString();
-            String im = imageString;
+            //String im = imageString;
+            String im = "errou";
             double lo = longitude;
             double la = latitude;
 
