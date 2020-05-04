@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.PointOfInterest;
 
 import static com.example.cm_backup.ativities.LoginActivity.MyPREFERENCES;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,6 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String EXTRA_LAT = "latitude";
     public static final String EXTRA_LONG = "longitude";
     private List<Problema> listaProblemas;
+    private HashMap<Marker, Problema> markers = new HashMap<>();
+    private Marker myMarker;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -109,10 +112,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         call.enqueue(new Callback<List<Problema>>() {
             @Override
             public void onResponse(Call<List<Problema>> call, Response<List<Problema>> response) {
-                if(response.body() != null){
+                if (response.body() != null) {
                     listaProblemas = response.body();
                     makeMarker();
-                }else{
+                } else {
 
                 }
             }
@@ -122,16 +125,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+        setInfoWindowClickToPanorama(mMap);
     }
 
-        private void makeMarker(){
-            for (int i = 0; i < listaProblemas.size(); i ++) {
-                mMap.addMarker(
+    private void makeMarker() {
+        for (int i = 0; i < listaProblemas.size(); i++) {
+            SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            Long user_id = preferences.getLong("ID", 0);
+            if (listaProblemas.get(i).getUser_id() == user_id) {
+                Marker marker = mMap.addMarker(
+                        new MarkerOptions()
+                                .position(new LatLng(listaProblemas.get(i).getLatitude(), listaProblemas.get(i).getLongitude()))
+                                .title(listaProblemas.get(i).getTitulo())
+                                .icon(BitmapDescriptorFactory.defaultMarker(20)));
+                markers.put(marker, listaProblemas.get(i));
+
+            } else {
+                Marker marker = mMap.addMarker(
                         new MarkerOptions()
                                 .position(new LatLng(listaProblemas.get(i).getLatitude(), listaProblemas.get(i).getLongitude()))
                                 .title(listaProblemas.get(i).getTitulo()));
+                markers.put(marker, listaProblemas.get(i));
             }
+
         }
+    }
+
+    private void setInfoWindowClickToPanorama(GoogleMap map) {
+        map.setOnInfoWindowClickListener(
+                new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent = new Intent(MapsActivity.this, GetProblemaActivity.class);
+                        intent.putExtra("MARKER_ID", markers.get(marker).getId());
+                        startActivity(intent);
+
+                    }
+                });
+    }
 
 
     private void setMapLongClick(final GoogleMap map) {

@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Problema {
+    @SerializedName("id")
+    @Expose
+    private Long id;
     @SerializedName("titulo")
     @Expose
     private String titulo;
@@ -46,6 +49,14 @@ public class Problema {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFoto() {
